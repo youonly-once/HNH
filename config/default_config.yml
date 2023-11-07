@@ -1,0 +1,111 @@
+training:
+  method: HNH
+  dataName: mirFlickr25k
+  batchSize: 32
+  bit: 32
+  cuda: True
+  device: 0
+  mu: 1.5
+  eta: 0.4
+  hnh2: False
+  numEpoch: 80
+  eval: False
+  numWorkers: 4
+  epochInterval: 2
+  evalInterval: 10
+  modelDir: './checkpoint'
+mirFlickr25k:
+  dataPath:
+    labelDir: 'E:/MIRFlickr/LALL/mirflickr25k-lall.mat'
+    txtDir: 'E:/MIRFlickr/YALL/mirflickr25k-yall.mat'
+    imgDir: 'E:/MIRFlickr/IALL/mirflickr25k-iall.mat'
+
+  beta: 1
+  lambda: 1
+  gamma: 0.9
+  alpha: 40
+  lrImg: 0.0001
+  lrTxt: 0.01
+  evalInterval: 10
+  momentum: 0.9
+  weightDecay: 0.0001
+  eval: False
+  kX: 2
+  kY: 2
+
+nusWide:
+  dataPath:
+    labelDir: 'path/to/NUS-WIDE-TC10/nus-wide-tc10-lall.mat'
+    txtDir: 'path/to/NUS-WIDE-TC10/nus-wide-tc10-yall.mat'
+    imgDir: 'path/to/NUS-WIDE-TC10/IAll/nus-wide-tc10-iall.mat'
+
+  beta: 1
+  lambda: 1
+  gamma: 0.9
+  alpha: 40
+  lrImg: 0.001
+  lrTxt: 0.01
+  evalInterval: 40
+  momentum: 0.9
+  weightDecay: 5e-4
+  eval: False
+  kX: 2
+  kY: 2
+
+wiki:
+  dataPath:
+      dataDir: 'path/to/wiki/images'
+      labelDir: 'path/to/wiki/raw_features.mat'
+      trainLabel: 'path/to/wiki/trainset_txt_img_cat.list'
+      testLabel: 'path/to/wiki/testset_txt_img_cat.list'
+
+  beta: 1
+  lambda: 1
+  gamma: 0.9
+  alpha: 40
+  lrImg: 0.01
+  lrTxt: 0.01
+  evalInterval: 100
+  momentum: 0.9
+  weightDecay: 5e-4
+  eval: False
+  kX: 2
+  kY: 2
+dataPreprocess:
+  img:
+    resize: [224, 224]
+    normalize:
+      mean: [0.485, 0.456, 0.406]
+      std: [0.229, 0.224, 0.225]
+    toTensor: True
+  txt:
+    normalize:
+      enable: False
+  label:
+    onehot: True
+dataAugmentation:
+  enable: True
+  img:
+    enable: True
+    originalRetention: 0.2
+    randomRotation:
+      enable: True
+      probability: 0.5
+      rotationAngle: [[90, 90], [180, 180], [270, 270]]
+    RandomHorizontalFlip:
+      enable: True
+      probability: 0.5
+    RandomVerticalFlip:
+      enable: True
+      probability: 0.5
+  txt:
+    enable: False
+    originalRetention: 0.5
+    RandomErasure:
+      enable: True
+      probability: 0.2
+      defaultValue: 0
+
+
+
+
