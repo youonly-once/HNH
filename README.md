@@ -27,7 +27,7 @@ For datasets, we follow [Deep Cross-Modal Hashing's Github (Jiang, CVPR 2017)](h
 
 __The following experiment results are the average values, if you demand for better results, please run the experiment a few more times (2~5).__
 
-- Clone this repo: `git clone https://github.com/SXS-PRIVATE/HNH.git`.
+- Clone this repo: `git clone https://github.com/youonly-once/HNH.git`.
 - Change the 'dataPath' in `default_config.yml` to where you place the datasets.
 - An example to train a model:
 ```bash
