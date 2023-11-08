@@ -19,7 +19,7 @@ from tqdm import tqdm
 from utils.meters import AverageMeter
 from utils.plotter import get_plotter
 import visdom
-from config.logger import logger
+from config.logger import get_logger
 
 
 class HNH:
@@ -78,9 +78,9 @@ class HNH:
                                      weight_decay=self.weight_decay)
 
     def load_config(self, config: Config):
-        self.logger = logger
-        self.name = 'HNH-O'
+        self.logger = get_logger()
         self.method = config.training['method']
+        self.name = self.method
         self.dataset_name = config.training['dataName']
         self.model_dir = config.training['modelDir']
         self.bit = int(config.training['bit'])
@@ -88,7 +88,6 @@ class HNH:
         self.device = config.training['device']
         self.max_epoch = config.training['numEpoch']
         self.num_workers = config.training['numWorkers']
-        self.hnh2 = config.training['hnh2']
         self.dataset_config = config.dataset_config
         self.data_path = config.dataset_config['dataPath']
         self.lr_img = self.dataset_config['lrImg']
@@ -161,7 +160,7 @@ class HNH:
             B_x = F.normalize(B_x)
             B_y = F.normalize(B_y)
 
-            if (self.hnh2):
+            if (self.method == 'HNH2'):
                 J3 = self.lambda_ * F.mse_loss(S_tilde, B_x.t() @ B_y)
                 # HNH-2
                 J1 = self.alpha * F.mse_loss(S_tilde, B_x.t() @ B_x)
@@ -193,14 +192,15 @@ class HNH:
             self.loss_store['intra loss'].update(J2.item())
             self.loss_store['inter loss'].update(J3.item())
             self.loss_store['loss'].update(loss.item())
-            self.remark_loss(J1, J2, J3,loss)
-        # eval the Model
-        if (epoch + 1) % self.eval_interval == 0:
-            self.evaluate()
+            self.remark_loss(J1, J2, J3, loss)
+
         self.print_loss(epoch)
         self.plot_loss("loss")
         self.reset_loss()
-        # self.lr_schedule()
+        # eval the Model
+        if (epoch + 1) % self.eval_interval == 0:
+            self.evaluate()
+        #self.lr_schedule()
         self.plotter.next_epoch()
         # save the model
         if epoch + 1 == self.max_epoch:

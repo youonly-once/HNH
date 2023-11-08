@@ -1,18 +1,14 @@
 training:
-  method: HNH
+  method: HNH2 #HNH2
   dataName: mirFlickr25k
   batchSize: 32
   bit: 32
   cuda: True
   device: 0
-  mu: 1.5
-  eta: 0.4
-  hnh2: False
-  numEpoch: 80
+  numEpoch: 500
   eval: False
   numWorkers: 4
-  epochInterval: 2
-  evalInterval: 10
+  evalInterval: 1
   modelDir: './checkpoint'
 mirFlickr25k:
   dataPath:
@@ -26,9 +22,9 @@ mirFlickr25k:
   alpha: 40
   lrImg: 0.0001
   lrTxt: 0.01
-  evalInterval: 10
+  evalInterval: 1
   momentum: 0.9
-  weightDecay: 0.0001
+  weightDecay: 0.0005
   eval: False
   kX: 2
   kY: 2
@@ -41,13 +37,13 @@ nusWide:
 
   beta: 1
   lambda: 1
-  gamma: 0.9
+  gamma: 0.6
   alpha: 40
   lrImg: 0.001
   lrTxt: 0.01
   evalInterval: 40
   momentum: 0.9
-  weightDecay: 5e-4
+  weightDecay: 0.0005
   eval: False
   kX: 2
   kY: 2
@@ -59,15 +55,15 @@ wiki:
       trainLabel: 'path/to/wiki/trainset_txt_img_cat.list'
       testLabel: 'path/to/wiki/testset_txt_img_cat.list'
 
-  beta: 1
+  beta: 0.3
   lambda: 1
-  gamma: 0.9
+  gamma: 0.8
   alpha: 40
-  lrImg: 0.01
+  lrImg: 0.0001
   lrTxt: 0.01
   evalInterval: 100
   momentum: 0.9
-  weightDecay: 5e-4
+  weightDecay: 0.0005
   eval: False
   kX: 2
   kY: 2
