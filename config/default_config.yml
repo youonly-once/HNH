@@ -1,5 +1,5 @@
 training:
-  method: HNH2 #HNH2
+  method: HNH #HNH2
   dataName: mirFlickr25k
   batchSize: 32
   bit: 32

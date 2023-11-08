@@ -2,7 +2,7 @@
 ***********************************************************************************************************
 
 This repository is for ["High-order nonlocal Hashing for unsupervised
-cross-modal retrieval"](http://openaccess.thecvf.com/content_ICCV_2019/papers/Su_Deep_Joint-Semantics_Reconstructing_Hashing_for_Large-Scale_Unsupervised_Cross-Modal_Retrieval_ICCV_2019_paper.pdf) 
+cross-modal retrieval"](https://sci-hub.se/https://doi.org/10.1007/s11280-020-00859-y) 
 
 
 ***********************************************************************************************************
