@@ -28,13 +28,13 @@ For datasets, we follow [Deep Cross-Modal Hashing's Github (Jiang, CVPR 2017)](h
 __The following experiment results are the average values, if you demand for better results, please run the experiment a few more times (2~5).__
 
 - Clone this repo: `git clone https://github.com/SXS-PRIVATE/HNH.git`.
-- Change the 'DATASET_DIR' in `settings.py` to where you place the datasets.
+- Change the 'DATASET_DIR' in `default_config.yml` to where you place the datasets.
 - An example to train a model:
 ```bash
 python train.py
 ```
-- Modify the parameter `EVAL = True` in `settings.py` for validation.
-- Ablation studies (__optional__): if you want to evaluate other components of our DJSRH, please refer to our paper and `settings.py`.
+- Modify the parameter `eval = True` in `default_config.yml` for validation.
+- Ablation studies (__optional__): if you want to evaluate other components of our HNH, please refer to our paper and `default_config.yml`.
 
 ***********************************************************************************************************
 
