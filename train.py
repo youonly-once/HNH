@@ -47,19 +47,19 @@ class HNH:
     def set_train_loader(self):
         # Data Loader (Input Pipeline)
         self.train_loader = MultiEpochsDataLoader(dataset=self.train_dataset,
-                                                  batch_size=self.BATCH_SIZE,
+                                                  batch_size=self.batch_size,
                                                   shuffle=True,
                                                   num_workers=self.num_workers,
                                                   drop_last=True,
                                                   pin_memory=True)
 
         self.test_loader = MultiEpochsDataLoader(dataset=self.test_dataset,
-                                                 batch_size=self.BATCH_SIZE,
+                                                 batch_size=self.batch_size,
                                                  shuffle=False,
                                                  num_workers=self.num_workers)
 
         self.database_loader = MultiEpochsDataLoader(dataset=self.database_dataset,
-                                                     batch_size=self.BATCH_SIZE,
+                                                     batch_size=self.batch_size,
                                                      shuffle=False,
                                                      num_workers=self.num_workers)
 
@@ -80,11 +80,11 @@ class HNH:
     def load_config(self, config: Config):
         self.logger = get_logger()
         self.method = config.training['method']
-        self.name = self.method
         self.dataset_name = config.training['dataName']
+        self.name = f'{self.method}_{self.dataset_name}'
         self.model_dir = config.training['modelDir']
         self.bit = int(config.training['bit'])
-        self.BATCH_SIZE = int(config.training['batchSize'])
+        self.batch_size = int(config.training['batchSize'])
         self.device = config.training['device']
         self.max_epoch = config.training['numEpoch']
         self.num_workers = config.training['numWorkers']
@@ -167,8 +167,8 @@ class HNH:
                 J2 = self.beta * F.mse_loss(S_tilde, B_y.t() @ B_y)
             else:
                 # # 计算U
-                Ic = torch.eye(32).cuda()
-                Ic_1 = torch.eye(32).cuda()
+                Ic = torch.eye(self.bit).cuda()
+                Ic_1 = torch.eye(self.batch_size).cuda()
                 # 计算 U = (2 * Ic + (beta / alpha) * Bx * Bx^T + (beta / alpha) * By * By^T)^(-1)
                 b_d_a = (self.beta / self.alpha)
                 U = torch.inverse(2 * Ic + b_d_a * B_x @ B_x.t() + b_d_a * B_y @ B_y.t())

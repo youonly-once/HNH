@@ -12,7 +12,12 @@ class Config(object):
             config = yaml.load(f, Loader=yaml.FullLoader)
             self.training = config['training']  # type: dict
            # self.dataset_path = config[self.training['method']]   # type: dict
-            self.dataset_config = config['mirFlickr25k']
+            if(self.training['dataName'] == 'mirFlickr25k'):
+                self.dataset_config = config['mirFlickr25k']
+            if(self.training['dataName'] == 'nusWide'):
+                self.dataset_config = config['nusWide']
+            if(self.training['dataName'] == 'wiki'):
+                self.dataset_config = config['wiki']
             self.data_preprocess = config['dataPreprocess']
             self.data_augmentation = config['dataAugmentation']
         #self.dataset_names = [key.lower() for key in self.dataset_path.keys()]

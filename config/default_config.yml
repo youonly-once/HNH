@@ -1,8 +1,8 @@
 training:
   method: HNH #HNH2
-  dataName: mirFlickr25k
+  dataName: nusWide
   batchSize: 32
-  bit: 32
+  bit: 16
   cuda: True
   device: 0
   numEpoch: 500
@@ -31,9 +31,9 @@ mirFlickr25k:
 
 nusWide:
   dataPath:
-    labelDir: 'path/to/NUS-WIDE-TC10/nus-wide-tc10-lall.mat'
-    txtDir: 'path/to/NUS-WIDE-TC10/nus-wide-tc10-yall.mat'
-    imgDir: 'path/to/NUS-WIDE-TC10/IAll/nus-wide-tc10-iall.mat'
+    labelDir: 'E:/nus-wide-tc10/nus-wide-tc10-lall.mat'
+    txtDir: 'E:/nus-wide-tc10/nus-wide-tc10-yall.mat'
+    imgDir: 'E:/nus-wide-tc10/nus-wide-tc10-iall.mat'
 
   beta: 1
   lambda: 1
@@ -41,7 +41,7 @@ nusWide:
   alpha: 40
   lrImg: 0.0001
   lrTxt: 0.01
-  evalInterval: 40
+  evalInterval: 1
   momentum: 0.9
   weightDecay: 0.0005
   eval: False
@@ -50,18 +50,18 @@ nusWide:
 
 wiki:
   dataPath:
-      dataDir: 'path/to/wiki/images'
-      labelDir: 'path/to/wiki/raw_features.mat'
-      trainLabel: 'path/to/wiki/trainset_txt_img_cat.list'
-      testLabel: 'path/to/wiki/testset_txt_img_cat.list'
+      dataDir: 'E:/wikipedia_dataset/images'
+      labelDir: 'E:/wikipedia_dataset/raw_features.mat'
+      trainLabel: 'E:/wikipedia_dataset/trainset_txt_img_cat.list'
+      testLabel: 'E:/wikipedia_dataset/testset_txt_img_cat.list'
 
   beta: 0.3
-  lambda: 1
+  lambda: 0.01
   gamma: 0.8
   alpha: 40
   lrImg: 0.0001
   lrTxt: 0.01
-  evalInterval: 100
+  evalInterval: 1
   momentum: 0.9
   weightDecay: 0.0005
   eval: False
