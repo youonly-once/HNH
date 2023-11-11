@@ -138,12 +138,12 @@ class HNH:
 
             self.opt_I.zero_grad()
             self.opt_T.zero_grad()
-            # 从AlexNet网络提取FI
+            # extract  F_I
             F_I, _, _ = self.FeatNet_I(img)  # batch_size * 4096
             _, hid_I, code_I = self.CodeNet_I(img)
             _, hid_T, code_T = self.CodeNet_T(F_T)
 
-            # ==========计算S_tilde=========
+            # ==========calculate S_tilde=========
             F_I = F.normalize(F_I)
             A_x = torch.matmul(F_I, F_I.t())
             # t_text = torch.squeeze(text, dim=1).squeeze(dim=2)
@@ -154,7 +154,7 @@ class HNH:
             S_tilde = self.gamma * A_tilde_x + (1 - self.gamma) * A_tilde_y
 
             # train
-
+            
             B_x = F.tanh(hid_I).t()
             B_y = F.tanh(hid_T).t()
             B_x = F.normalize(B_x)
@@ -162,23 +162,22 @@ class HNH:
 
             if (self.method == 'HNH2'):
                 J3 = self.lambda_ * F.mse_loss(S_tilde, B_x.t() @ B_y)
-                # HNH-2
                 J1 = self.alpha * F.mse_loss(S_tilde, B_x.t() @ B_x)
                 J2 = self.beta * F.mse_loss(S_tilde, B_y.t() @ B_y)
             else:
-                # # 计算U
+                # calculate U
                 Ic = torch.eye(self.bit).cuda()
                 Ic_1 = torch.eye(self.batch_size).cuda()
-                # 计算 U = (2 * Ic + (beta / alpha) * Bx * Bx^T + (beta / alpha) * By * By^T)^(-1)
+                #  U = (2 * Ic + (beta / alpha) * Bx * Bx^T + (beta / alpha) * By * By^T)^(-1)
                 b_d_a = (self.beta / self.alpha)
                 U = torch.inverse(2 * Ic + b_d_a * B_x @ B_x.t() + b_d_a * B_y @ B_y.t())
-                # 计算临时矩阵 temp = (Bx + By) * (Ic + (beta / alpha) * S_tilde)
+                #  (Bx + By) * (Ic + (beta / alpha) * S_tilde)
                 temp = (B_x + B_y) @ (Ic_1 + b_d_a * S_tilde)
 
-                # 计算最终结果 U * temp
+                # calculate U * temp
                 U = U @ temp
 
-                # 计算损失
+                # calculate loss
                 J1 = self.alpha * (F.mse_loss(U, B_x) + F.mse_loss(U, B_y))
                 J2 = self.beta * (F.mse_loss(S_tilde, U.t() @ B_x) + F.mse_loss(S_tilde, U.t() @ B_y))
                 J3 = self.lambda_ * F.mse_loss(S_tilde, B_x.t() @ B_y)
